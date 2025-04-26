@@ -45,29 +45,43 @@ test('shallow merge with arrays', () => {
     expect(merged).toEqual(['vue', 'react', 'svelte', 'solid'])
 })
 
-test.skip('deep merge with overlaps', () => {
+test('deep merge with overlaps', () => {
     const merged = deepMerge(
         {
             name: 'Anthony',
             accounts: {
                 github: 'unknown',
             },
+            languages: ['js']
         },
         {
             github: 'antfu',
             accounts: {
                 twitter: 'antfu7',
             },
+            languages: ['ts', 'vue']
         }
     )
 
-    expect(merged).toEqual({
-        name: 'Anthony',
-        accounts: {
-            github: 'unkown',
-            twitter: 'antfu7',
+    expect(merged).toMatchInlineSnapshot(`
+      {
+        "accounts": {
+          "github": "unknown",
+          "twitter": "antfu7",
         },
-    })
+        "github": "antfu",
+        "languages": [
+          "js",
+          "ts",
+          "vue",
+        ],
+        "name": "Anthony",
+      }
+    `)
+
+    expect(Math.sqrt(2)).toMatchInlineSnapshot(`
+        1.4142135623730951
+    `)
 })
 
 test('throws erros on mergin two different types', () => {
